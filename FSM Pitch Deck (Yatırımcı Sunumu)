@@ -118,6 +118,42 @@
 
 ---
 
+## 9.1 **Sektörel Vaka Çalışması: Mobilya & Yatak Sektörü**
+
+### 🛏️ Neden Bu Sektör?
+
+* Kurulum, taşıma, montaj süreçleri çok adımlı → hata oranı yüksek
+* Şikayet hacmi yoğun, sosyal medyada görünür
+* Servis ekipleri genellikle taşeron → kontrol zor
+* Müşteri memnuniyeti marka algısını direkt etkiliyor
+
+### 🎯 Örnek Problem Senaryosu
+
+1. Müşteri yatak + baza siparişi verdi.
+2. Teslimat ekibi ürünleri taşıdı fakat montaj eksik yapıldı.
+3. Müşteri arızayı bildirdi → servis gönderildi.
+4. Servis “sorun çözüldü” diye kapattı.
+5. Müşteri 2. kez aradı: “Sorun çözülmemiş.”
+6. Servis tekrar gönderildi ama yine çözüm sağlanmadı.
+7. Müşteri sosyal medyada şikayet yazdı.
+
+### 🔥 Bizim Çözüm Akışımız
+
+* Sistem 3 tekrar eden servis kaydını otomatik tespit eder.
+* “Tarafsız Denetçi” devreye girer.
+* Denetçi video/fotoğraf ile durumu belgeleyip nihai raporu oluşturur.
+* Rapor; müşteri, servis firması ve marka tarafından görülür.
+* Tartışma → kanıta dayalı net karara bağlanır.
+
+### 💰 Fayda
+
+* Gereksiz servis tekrarları %40’a kadar azalır.
+* Müşteri memnuniyeti güçlenir.
+* Sosyal medya krizlerinin büyük bölümü engellenir.
+* Marka; taşeron servis performansını izleyebilir.
+
+---
+
 ## 9. **MVP Planı (6 Ay)**
 
 **Ay 1-2:** İş emri yönetimi + admin paneli
