@@ -1,0 +1,82 @@
+MVP Teknik Kapsam Dokümanı
+🔧 1) Yönetim Paneli (Admin)
+
+Firma yönetimi (servis firmaları, teknisyenler, bölgeler)
+
+İş emri oluşturma ve atama
+
+SLA kuralları yönetimi
+
+Kullanıcı rolleri (admin, operasyon, denetçi, teknisyen)
+
+Dashboard: açık iş emirleri, SLA ihlalleri, performans
+
+📱 2) Mobil Teknisyen Uygulaması
+
+İş emri listesi (konum, süre, müşteri bilgisi)
+
+QR kod veya NFC ile varlık doğrulama
+
+Fotoğraf/video yükleme
+
+Yapılan işlem adımlarını işaretleme
+
+İş emri kapatma + müşteri imzası
+
+Offline çalışma modu
+
+🧠 3) SLA & Tekrar Şikayet Algoritması
+
+İş emri tekrar sıklığının takip edilmesi
+
+Aynı arıza kodu + aynı müşteri → tekrar etkinliği
+
+1., 2. ve 3. servis için otomatik sınıflandırma
+
+SLA ihlali risk skorlaması
+
+🛡️ 4) Tarafsız Denetçi Modülü (USP)
+
+3 başarısız servis sonrası otomatik “Denetçi Atama”
+
+Denetçi için özel mobil ekran
+
+Kanıt toplama: video + fotoğraf + not
+
+Nihai rapor oluşturma
+
+Raporun müşteri, servis firması ve marka tarafından görüntülenmesi
+
+💬 5) Müşteri Portalı
+
+Şikayet kaydı
+
+Servis durumu takibi
+
+Denetçi raporunu görüntüleme
+
+Geri bildirim / memnuniyet değerlendirmesi
+
+🔗 6) Entegrasyonlar (MVP sonrası ama plan dahilinde)
+
+ERP (Logo, Netsis, SAP) temel API entegrasyonları
+
+Müşteri veri tabanı entegrasyonları
+
+Garanti & satış sonrası sistemleri
+
+🗺️ 7) Rota Planlama (Temel + AI Sonraki Versiyon)
+
+MVP: Google Maps rotalama
+
+V1: Teknisyen yetkinliğine göre AI atama
+
+🖼️ 8) Dashboard / Raporlama
+
+Teknisyen performansı
+
+Tekrar eden arıza analizi
+
+SLA uyumluluk
+
+Denetçi raporu istatistikleri
