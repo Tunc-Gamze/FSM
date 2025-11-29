@@ -1,0 +1,141 @@
+# 📌 FSM Pitch Deck (Yatırımcı Sunumu)
+
+## 1. **Kapak**
+
+**Akıllı Field Service Management Platformu**
+"Teknik servis süreçlerinde doğruluk, şeffaflık ve çözüm odaklılık için yeni nesil FSM"
+
+---
+
+## 2. **Problem**
+
+* Teknik servisler aynı arızaya 2–3 kez gidiyor fakat sorun hâlâ çözülmemiş olabiliyor.
+* Servis "Yaptım" diyor, müşteri "Yapılmadı" diyor → Çift taraflı güvensizlik.
+* Şirketlerde tekrar ziyaret maliyetleri artıyor.
+* SLA ihlalleri ve müşteri memnuniyetsizliği yükseliyor.
+* Gerçek zamanlı kontrol yok, manipülasyon riski yüksek.
+
+---
+
+## 3. **Pazar Fırsatı**
+
+* Türkiye'de 65.000+ servis ekipli işletme.
+* Avrupa'da 600.000+ servis operasyonu olan işletme.
+* Satış sonrası hizmet sektörü → milyar dolarlık bir pazar.
+* Dijitalleşme oranı düşük → yüksek potansiyel.
+
+---
+
+## 4. **Çözüm: Akıllı FSM Platformu**
+
+* İş emri yönetimi
+* AI destekli teknisyen planlama
+* Mobil teknisyen uygulaması
+* Müşteri portalı
+* SLA takip sistemi
+* Envanter & varlık yönetimi
+* Otomatik faturalandırma
+* **3 başarısız servis sonrası "Tarafsız Denetçi" algoritması (USP)**
+
+---
+
+## 5. **Farklılaştırıcı Özellik (USP)**
+
+### 🔥 "Tarafsız Denetçi Modülü" — Bu projenin imzası
+
+* Aynı arıza için teknisyen 3 kez gider, sorun çözülmezse:
+
+  * Sistem otomatik uyarı üretir.
+  * Tarafsız bir denetçi atanır.
+  * Video, fotoğraf ve teknik rapor toplanır.
+  * Nihai karar platformda kaydedilir.
+* Bu özellik **hiçbir rakip FSM ürününde yoktur.**
+* Hem müşteri hem servis firması için şeffaflık sağlar.
+
+---
+
+## 6. **Ürün Akışı (Basit)**
+
+1. Müşteri şikayet oluşturur.
+2. İş emri teknisyene atanır.
+3. Müdahale → çözüldü / çözülmedi.
+4. Tekrar eden şikayetlerde sistem otomatik alarm verir.
+5. 3. başarısız servis sonrası tarafsız denetçi atanır.
+6. Denetçi nihai raporu → müşteri, firma, garanti servisine iletilir.
+
+---
+
+## 7. **Rekabet Analizi**
+
+| Rakip          | Eksik Noktaları                         |
+| -------------- | --------------------------------------- |
+| SAP FSM        | Çok pahalı, KOBİ için uygun değil       |
+| Salesforce FSM | Aşırı kompleks ve maliyetli             |
+| ServiceMax     | Büyük ölçek için tasarlanmış            |
+| Yerel çözümler | Mobil zayıf, AI yok, denetçi modülü yok |
+
+**Bizim avantajlarımız**:
+
+* Kullanıcı dostu
+* Türkiye pazarına uygun fiyatlandırma
+* AI destekli planlama
+* **Tarafsız Denetçi Modülü** (benzersiz)
+
+---
+
+## 8. **İş Modeli**
+
+* Aylık kullanıcı bazlı abonelik (SaaS)
+* Modül bazlı ek paketler
+* AI rota optimizasyonu premium paket
+* Entegrasyon & eğitim gelirleri
+* Kurumsal yıllık lisanslama
+
+---
+
+## 9. **MVP Planı (6 Ay)**
+
+**Ay 1-2:** İş emri yönetimi + admin paneli
+**Ay 3:** Mobil teknisyen uygulaması
+**Ay 4:** SLA algoritmaları
+**Ay 5:** Müşteri portalı
+**Ay 6:** **Tarafsız Denetçi Modülü (Beta)**
+
+---
+
+## 10. **Finansal Projeksiyon**
+
+* Yıl 1: 300 müşteri → 450.000 USD gelir
+* Yıl 2: 900 müşteri → 1.4M USD
+* Yıl 3: 2500 müşteri → 4.2M USD
+
+Maliyetler (İlk 12 ay):
+
+* Yazılım geliştirme: %45
+* Pazarlama: %35
+* Operasyon: %20
+
+---
+
+## 11. **Yatırım İhtiyacı**
+
+**İstenen yatırım: 350.000 USD**
+
+* MVP geliştirme
+* Pazara giriş
+* Pilot müşteri edinimi
+* AI modüllerinin geliştirilmesi
+
+---
+
+## 12. **Ekip**
+
+* **Kurucu / Ürün Sahibi:** Gamze (Vizyon, pazar problemi, süreç tasarımı)
+* **Yazılım Ajansı:** Backend + mobil + frontend ekip
+* **Danışmanlar:** Teknik servis operasyon uzmanları, veri uzmanı
+
+---
+
+## 13. **Kapanış**
+
+"FSM sektöründe şeffaflık, doğruluk ve verimlilik için yeni standart."
