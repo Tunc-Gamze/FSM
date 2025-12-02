@@ -1,0 +1,485 @@
+1) Özet: Hedef & MVP tanımı
+
+**Hedef:** Müşteri talebi açma → AI ön değerlendirme → Teknisyen atama → Teknisyen uygulaması → Operasyon paneli → Tekrar & Denetçi akışı çalışır hale gelsin.
+**MVP kapsamı (ilk canlı sürüm):**
+
+* Müşteri: Talep oluşturma (form + foto), talep takibi, bildirimler.
+* Teknisyen: Havuzdan talep üstlenme, iş başlat/bitir, öncesi/sonrası foto.
+* Operasyon Paneli: Talep listesi, talep detayı, manuel atama.
+* Basit AI/kurallar: kategori eşleştirme (keyword veya küçük model).
+* Basit SLA takibi & temel rapor.
+* Authentication + temel güvenlik.
+  (Not: Denetçi modülü, gelişmiş AI, ödeme/para modülü ve ERP/CRM entegrasyonları MVP sonrası hedeflenir.)
+
+---
+
+# 2) Temel teknik kararlar (öneri — tek kişi için pratik)
+
+* **Frontend:** React (PWA) + Tailwind CSS. Tek kod tabanı ile web + mobil PWA (hızlı yayına alma). Teknisyen app için responsive PWA yeter; ileride React Native’ye taşınabilir.
+* **Backend:** Node.js + NestJS (modüler, iyi yapılandırılmış) veya Express + TypeScript. (Ben NestJS öneririm.)
+* **DB:** PostgreSQL (PostGIS ile konum işlemleri opsiyonel).
+* **Cache/queue:** Redis (cache + job queue için BullMQ).
+* **Storage:** S3 (AWS S3 / DigitalOcean Spaces / Backblaze) — görseller için.
+* **Auth:** JWT + refresh token; yönetici rolleri için RBAC. İleride OAuth2 destekleyebilirsin.
+* **Deployment:** Başlangıç için Render / Railway / Vercel (frontend). Kolay yönetim. Prod için AWS/GCP/Azure veya DigitalOcean.
+* **CI/CD:** GitHub Actions (otomatik test + build + deploy).
+* **Monitoring:** Sentry (hata takibi), Prometheus/Datadog veya basit LogDNA.
+* **Payment & Billing:** (İleride) Stripe veya yerel ödeme entegrasyonu.
+* **AI:** İlk aşamada keyword/regex + basit ML sınıflandırıcı (scikit-learn veya tiny transformer). Daha sonra OpenAI gibi servislerle entegrasyon.
+* **İletişim/Push:** Push bildirimleri + SMS (Twilio/Infobip) + e-posta (SendGrid/Mailgun).
+
+---
+
+# 3) ERP / CRM entegrasyonu — ne zaman ve nasıl?
+
+**Ne zaman karar verilmeli:** Entegrasyonu baştan *şart* kılma. Ancak:
+
+* **Mimari olarak entegrasyona hazır kur**: tüm önemli varlıklara (Customer, Ticket, Invoice, Technician, Parts, SLA events) dış ID (external_id) alanı ekle; webhook/event yayınla; API-first tasarla.
+* **Ne zaman yap:** İlk canlı MVP’den sonra (3–6 ay içinde) müşterilerin/iş ortaklarının talebine göre. Özet: *karar şimdi değil, hazırlık şimdi*.
+
+**Temel entegrasyon touchpoint’leri (zorunlu):**
+
+* Customer sync (crm.customer.create/update)
+* Ticket sync (ticket.create/update/close)
+* Parts & Inventory (parça talebi, stok seviyesi)
+* Invoice / Payment (invoice.create/payments)
+* Technician master data (personel ve yetkinlikler)
+* SLA / Contract (sözleşme bilgileri)
+
+**Teknik öneri:**
+
+* Backend tarafında **Webhook Publisher** ve **Webhook Receiver** modülü olsun.
+* **Webhook schema** JSON: evet/versiyon/olay tipi/timestamp/payload.
+* Tercih: **message queue (RabbitMQ / SQS / Redis stream)** ile güvenilir teslimat.
+* Auth: OAuth2 client cred veya HMAC-signed webhooks.
+* Alternatif: iPaaS (Make / Zapier / n8n) ile hızlı entegrasyon.
+
+---
+
+# 4) Sprint planı — 26 sprint (2 haftalık) — 12 aylık örnek
+
+Her sprint 2 hafta; tek kişi için sprint kapasitesi: haftada ~35–45 saat kabul ederek sprint başına net **70–90 saat** çalışılabilir kabul edilmiştir. Tahminler verdiğim aralıklarda. Eğer haftada daha az çalışacaksan planı orantılı olarak uzat.
+
+---
+
+## Faz A — Keşif, Altyapı, Temel API (Sprint 1-4) — 8 hafta
+
+Amaç: Ürünün temeli — repository, CI, DB şeması, temel auth ve ticket API.
+
+### Sprint 1 — Discovery & Başlangıç (2 hafta)
+
+* Görevler:
+
+  * Ürün gereksinimlerini kır (user stories listesi).
+  * Persona & user journey (müşteri, teknisyen, ops).
+  * Tech stack kesinleştir, repo oluştur.
+  * Basit wireframe (Figma) — temel ekranlar.
+  * CI pipeline boş kur (GitHub Actions).
+* Kabul kriterleri:
+
+  * Figma’da temel ekran akışı, GitHub repo + README, CI skeleton.
+* Tahmini emek: 40–70s
+
+### Sprint 2 — Temel DB & Auth (2 hafta)
+
+* Görevler:
+
+  * Postgres kur, DB modelleri: Users, Roles, Tickets, TicketMedia, TechnicianProfile, Certifications, SLAEvents.
+  * JWT auth + register/login + role-based guard.
+  * Local dev ortamı (docker-compose).
+* Kabul kriterleri:
+
+  * Kullanıcı kayıt/giriş çalışır, DB migration dosyaları hazır.
+* Tahmini emek: 60–90s
+
+### Sprint 3 — Ticket API (CRUD) + File Upload (2 hafta)
+
+* Görevler:
+
+  * Ticket create/read/update/list endpoints (paginated).
+  * Media upload to S3 (signed URLs).
+  * Ticket model: status, priority, location, media.
+* Kabul kriterleri:
+
+  * Postman koleksiyonu ile ticket create → attachment upload → get ticket testi.
+* Tahmini emek: 70–100s
+
+### Sprint 4 — Minimal Frontend: Talep Oluşturma Formu (PWA) (2 hafta)
+
+* Görevler:
+
+  * React PWA skeleton, Talep oluşturma form (kategori, foto, konum, saat aralığı).
+  * Harita entegrasyonu: Google Maps / Leaflet (konum seçimi).
+* Kabul kriterleri:
+
+  * Kullanıcı talep formunu doldurup backend’e ticket gönderebilmeli.
+* Tahmini emek: 70–100s
+
+---
+
+## Faz B — Teknisyen Workflows + Operasyon Panel (Sprint 5-10) — 12 hafta
+
+Amaç: Teknisyenin havuzdan talep alması, iş başlat/bitir, operasyon panelinde listeleme.
+
+### Sprint 5 — Teknisyen Profili & Sertifika Upload (2w)
+
+* Görevler:
+
+  * TechnicianProfile CRUD, sertifika dosyası upload.
+  * Teknisyen roluna özel onboarding.
+* Kabul kriterleri:
+
+  * Teknisyen kayıt, profil, sertifika ekleyebiliyor.
+* Tahmini: 60–90s
+
+### Sprint 6 — Talep Havuzu & Üstlenme Mekaniği (2w)
+
+* Görevler:
+
+  * Back-end: talep havuzunda listelenme, üstlen endpoint.
+  * İş üstlenince SLA başlatma.
+  * Frontend teknisyen havuz ekranı.
+* Kabul kriterleri:
+
+  * Teknisyen bir talebi “üstlen” komutuyla alıp ilgili ticket durumunu değiştirebilmeli.
+* Tahmini: 70–100s
+
+### Sprint 7 — İş Başlat / Bitir + Foto Kanıt (2w)
+
+* Görevler:
+
+  * İş başlat, konum loglama, iş bitir, öncesi/sonrası foto yükle.
+  * İş geçmişi kaydı.
+* Kabul kriterleri:
+
+  * Teknisyen “başlat/bitir” ile ticket durumunu geçirebilmeli ve medya ekleyebilmeli.
+* Tahmini: 70–100s
+
+### Sprint 8 — Operasyon Panel: Talep Listesi + Detay (2w)
+
+* Görevler:
+
+  * Admin panel (basit UI) talep listesi, filtreleme, detay view.
+  * Manuel atama özelliği.
+* Kabul kriterleri:
+
+  * Admin bir talebi görebilmeli, filtreleyebilmeli ve teknisyene atayabilmeli.
+* Tahmini: 70–110s
+
+### Sprint 9 — Bildirimler & Mesajlaşma Basit (2w)
+
+* Görevler:
+
+  * Push + email + SMS (SMS opsiyonel; denemelik e-posta/console).
+  * Müşteri-teknisyen arasında basit mesajlaşma (in-app).
+* Kabul kriterleri:
+
+  * Talep atandığında müşteri bildirim almalı; mesajlaşma ile kısa mesaj gönderilebilmeli.
+* Tahmini: 60–90s
+
+### Sprint 10 — Basit SLA / KPI İzleme (2w)
+
+* Görevler:
+
+  * SLA event modellemesi; admin panelde SLA gösterge paneli (temel).
+  * SLA ihlal uyarıları (email/log).
+* Kabul kriterleri:
+
+  * Bir ticket SLA ihlal süresini geçerse alert üretilmeli.
+* Tahmini: 70–100s
+
+---
+
+## Faz C — Tekrar Şikayet & Denetçi Modülü, QA (Sprint 11-16) — 12 hafta
+
+Amaç: Tekrar akışı, bağımsız denetçi iş akışı, kalite ve testler.
+
+### Sprint 11 — Şikayet Tekrar Mantığı (İlk/İkinci Tekrar) (2w)
+
+* Görevler:
+
+  * Tekrar açma endpointleri, atama politikası (aynı teknisyen / farklı teknisyen).
+  * Müşteri arayüzünde “Sorunum devam ediyor” butonları.
+* Kabul kriterleri:
+
+  * İlk tekrar otomatik aynı teknisyene, ikinci tekrar farklı teknisyene atanmalı.
+* Tahmini: 60–90s
+
+### Sprint 12 — Bağımsız Denetçi Modülü (Görev Atama) (2w)
+
+* Görevler:
+
+  * Denetçi kayıt + görev alma, denetim formu.
+  * Denetçi raporu upload; karar tipleri (firma / müşteri / teknik).
+* Kabul kriterleri:
+
+  * Denetçi bir talebi alıp rapor oluşturabilmeli; rapor admin tarafından görüntülenebilmeli.
+* Tahmini: 70–100s
+
+### Sprint 13 — AI Basit: Kategori Tespiti & Ön Analiz (2w)
+
+* Görevler:
+
+  * Basit text classifier (keyword + ML model) ile kategori/ön-tahmin.
+  * Admin’de AI kararını göster.
+* Kabul kriterleri:
+
+  * En az %70 doğrulukla test dataset’inde kategori tahmini yapabilmeli (iteratif geliştirilecek).
+* Tahmini: 60–90s
+
+### Sprint 14 — Testler & Otomasyon (2w)
+
+* Görevler:
+
+  * Unit tests, integration tests, e2e (Cypress).
+  * Test coverage metrikleri.
+* Kabul kriterleri:
+
+  * Kritik API’ler için %70+ test coverage (başlangıç).
+* Tahmini: 60–90s
+
+### Sprint 15 — Güvenlik & Veri Koruma (2w)
+
+* Görevler:
+
+  * Rate limiting, input validation, file scanning (dosya türü), encryption at rest (DB), TLS, logging.
+  * KVKK/GDPR için veri silme ve export endpoints.
+* Kabul kriterleri:
+
+  * Güvenlik temel checklist’i tamam (OWASP top10 kontrolü).
+* Tahmini: 60–90s
+
+### Sprint 16 — Kullanıcı Kabul Testleri & UX İyileştirme (2w)
+
+* Görevler:
+
+  * 5–10 kullanıcı ile usability test; feedback toplama.
+  * Kritik UX düzeltmeleri.
+* Kabul kriterleri:
+
+  * UX testlerinde 3 ana problem çözülmüş olmalı.
+* Tahmini: 60–100s
+
+---
+
+## Faz D — Operasyonel Olgunlaşma & Raporlama (Sprint 17-20) — 8 hafta
+
+Amaç: Raporlama, fatura, eğitim/sertifika modülü.
+
+### Sprint 17 — Raporlama & Analitik (2w)
+
+* Görevler:
+
+  * Rapor sayfaları: talep trend, teknisyen performans, tekrar oranı.
+  * CSV/PDF export.
+* Kabul kriterleri:
+
+  * Operasyon panelinde en az 5 rapor var; export çalışıyor.
+* Tahmini: 70–100s
+
+### Sprint 18 — Fatura & Ödeme Placeholders (2w)
+
+* Görevler:
+
+  * İş bazlı fatura kaydı, komisyon hesaplama (basit).
+  * Stripe sandbox entegrasyonu placeholder (opsiyonel).
+* Kabul kriterleri:
+
+  * Tamamlanan iş için fatura kaydı oluşturulabiliyor.
+* Tahmini: 60–90s
+
+### Sprint 19 — Eğitim & Sertifika Yönetimi (2w)
+
+* Görevler:
+
+  * Eğitim içerik upload, quiz/sonuç, sertifika expiry uyarıları.
+* Kabul kriterleri:
+
+  * Teknisyenler eğitim tamamlayınca sertifika alabiliyor; expiry alert.
+* Tahmini: 60–90s
+
+### Sprint 20 — İyileştirme Döngüsü (Hata düzeltmeler + refactor) (2w)
+
+* Görevler:
+
+  * Tech debt refactor, performans iyileştirmeleri.
+* Kabul kriterleri:
+
+  * En kritik 10 tech-debt issue kapatılmış.
+* Tahmini: 60–90s
+
+---
+
+## Faz E — Entegrasyon & Ölçeklendirme (Sprint 21-24) — 8 hafta
+
+Amaç: ERP/CRM entegrasyon hazırlıkları, webhook, staging→prod, load testing.
+
+### Sprint 21 — Webhook & Event System (2w)
+
+* Görevler:
+
+  * Event bus + publisher + retry mekanizması.
+  * Event: ticket.created/updated/closed, invoice.paid, technician.updated.
+* Kabul kriterleri:
+
+  * External listener simüle edildiğinde event başarıyla gönderilip onay alınıyor (retry testleri).
+* Tahmini: 60–100s
+
+### Sprint 22 — API Docs & Versioning (2w)
+
+* Görevler:
+
+  * OpenAPI spec, swagger, API versioning.
+* Kabul kriterleri:
+
+  * Tüm önemli endpointler dokümante edilmiş.
+* Tahmini: 40–70s
+
+### Sprint 23 — ERP/CRM ile Pilot Entegrasyon (2w)
+
+* Görevler:
+
+  * Bir CRM (ör. HubSpot/Zoho) ile pilot: customer & ticket push.
+  * iPaaS (n8n) üzerinden senkronizasyon denemesi.
+* Kabul kriterleri:
+
+  * Pilot CRM’ye ticket oluşturma/senkronizasyon sağlanmış.
+* Tahmini: 60–100s
+
+### Sprint 24 — Load / Stress Test & Prod Hazırlık (2w)
+
+* Görevler:
+
+  * Basit load test senaryoları (k6), optimizasyon.
+  * Backups, monitoring, prod deploy checklist.
+* Kabul kriterleri:
+
+  * Sistem 1000 concurrent simulated users altında kritik API’leriyle çalışır halde (hedef başlangıç seviyesi).
+* Tahmini: 60–90s
+
+---
+
+## Faz F — Canlıya Geçiş & Son Rötuşlar (Sprint 25-26) — 4 hafta
+
+Amaç: Beta / public launch, pazara alma, destek süreçleri.
+
+### Sprint 25 — Beta & Canlıya Alma (2w)
+
+* Görevler:
+
+  * Staging→Prod deploy, domain, SSL.
+  * Beta kullanıcı onboarding, destek kanalı (Zendesk / Intercom).
+* Kabul kriterleri:
+
+  * Küçük bir pilot kullanıcı grubu canlıda ticket açabiliyor ve teknisyen çözüyor.
+* Tahmini: 60–100s
+
+### Sprint 26 — Son İzleme & İlk 30 Gün Operasyon (2w)
+
+* Görevler:
+
+  * İlk 30 günlük KPI takibi, kritik hata düzeltmeleri, destek akışı.
+  * Roadmap güncelleme.
+* Kabul kriterleri:
+
+  * İlk 30 gün raporu oluşturulmuş, 10 büyük/mid bug fixlenmiş.
+* Tahmini: 60–100s
+
+---
+
+# 5) Her sprint için şablon — ne yapmalı (pratik)
+
+Her sprint başında:
+
+1. Sprint Planning (1–2 saat) — backlog’dan seç
+2. Günlük Stand-up (10–15 dk kendinle) — not al
+3. Sprint Review (2 saat) — yaptıklarını demo et (Figma/dir)
+4. Retrospective (1 saat) — ne iyi/ kötü/ geliştirme
+
+Task breakdown örneği (ticket create endpoint):
+
+* API: model + migration (2h)
+* API: controller/service (6h)
+* Tests (4h)
+* Frontend form (8h)
+* E2E test (4h)
+* Deploy (2h)
+
+---
+
+# 6) Kullanıcı hikayeleri (örnek, backlog başlangıcı)
+
+* As a customer I want to create a ticket with photos so that I can request service.
+* As a technician I want to see nearby tickets so I can accept jobs close to me.
+* As an admin I want to assign a ticket manually so that urgent jobs are handled.
+  (…) — Her birini sprintlere böl.
+
+---
+
+# 7) Acceptance Criteria örnekleri (kalite garantisi)
+
+* Ticket oluşturma: “Given user fills form and uploads at least 1 photo, When submit, Then ticket is stored in DB with status=created and a confirmation email is sent.”
+* Teknisyen üstlenme: “When technician hits ‘accept’, Then ticket.assigned_to = technician_id AND status = assigned AND customer receives notification.”
+
+---
+
+# 8) Ölçümler & KPI (neye bakılmalı)
+
+* İlk yanıt süresi (time to first assign)
+* Ortalama çözüm süresi
+* İlk ziyaret çözüm oranı
+* Tekrar şikayet oranı
+* SLA ihlali oranı
+* NPS / CSAT skorları
+
+---
+
+# 9) Teknik entegrasyon dokümanı — başlangıç (ERP/CRM-ready)
+
+**Data modeller (zorunlu alanlar, örnek):**
+
+* Customer: id, external_id, name, phone, email, address, metadata
+* Ticket: id, external_id, customer_id, product_category, product_brand, summary, description, priority, status, created_at, updated_at, sla_deadline
+* Technician: id, external_id, name, skills[], certifications[], location, status
+* Invoice: id, ticket_id, amount, status, external_reference
+
+**API design (örnek):**
+
+* `POST /api/v1/tickets` — create
+* `GET /api/v1/tickets/{id}` — get
+* `POST /api/v1/webhook` — receive webhook (with HMAC)
+* Events: `ticket.created`, `ticket.updated`, `ticket.closed`, `invoice.created`
+
+**Webhook contract:**
+
+```json
+{
+  "version": "1.0",
+  "event": "ticket.created",
+  "timestamp": "2025-12-02T09:00:00Z",
+  "payload": { ... }
+}
+```
+
+**Auth:** HMAC signature header veya OAuth2 client credentials.
+
+---
+
+# 10) Riskler & Mitigasyon
+
+* **Tek geliştirici olman → single point of failure:** Kod + deployment dokümantasyonunu iyi tut, automated backups, runbook hazırla.
+* **Scope creep (özellikle AI ve entegrasyon):** MVP listesini sabitle, “nice-to-have”leri backlog’a koy.
+* **Güvenlik & veri koruma:** Erken aşamada KVKK/GDPR odaklı hazır ol; kişisel veri yönetimini tanımla.
+* **İş yükü:** Sprintleri 2–3 haftalık aralıkta tekrar gözden geçir.
+
+---
+
+# 11) Araç önerileri (tek kişi verimliliği için)
+
+* Repo/CI: GitHub + Actions
+* Issue/Board: GitHub Projects veya Linear / Jira (basit)
+* Docs: Notion veya Confluence (ürün doc + runbook)
+* Figma: wireframes & hi-fi
+* Monitoring: Sentry + basic logs (Papertrail / LogDNA)
+* iPaaS: n8n (self-hosted) başlangıç için
+
