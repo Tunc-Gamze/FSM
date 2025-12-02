@@ -1,0 +1,299 @@
+Aşağıdaki yapı bir tasarımcıya verdiğinde direkt Figma’ya dökülebilecek netliktedir.
+
+---
+
+# 🎨 **FSM – UI/UX Ekran Akış Tasarımı**
+
+Aşağıdaki akış 4 ana uygulamayı kapsar:
+
+1. **Müşteri Uygulaması**
+2. **Teknisyen Uygulaması**
+3. **Bağımsız Denetçi Uygulaması**
+4. **Yönetim / Operasyon Paneli (Opsiyonel)**
+
+Her bir ekranın
+→ **adı**
+→ **ekranda bulunması gereken öğeler**
+→ **kullanıcı aksiyonu**
+şeklinde detaylandırdım.
+
+---
+
+# 🟦 **1) MÜŞTERİ UYGULAMASI EKRANLARI**
+
+---
+
+## **1.1 – Ana Ekran / Dashboard**
+
+**Ögeler:**
+
+* “Yeni Talep Oluştur” butonu (prominent)
+* Mevcut talep kartları
+
+  * Talep durumu: Oluşturuldu / Atandı / Yolda / Çözüldü / Tekrar Açıldı
+  * Teknisyen bilgisi (varsa)
+  * Zaman geri sayımı (ops.)
+* Profil & Ayarlar
+
+**Kullanıcı aksiyonu:**
+“Yeni Talep Oluştur”
+
+---
+
+## **1.2 – Talep Oluşturma Adım 1: Ürün Kategorisi Seçimi**
+
+**Ögeler:**
+
+* Grid formatında kategori ikonları:
+
+  * Araç
+  * Beyaz eşya
+  * Elektronik
+  * Mobilya / Kanepe / Yatak
+  * Diğer (çöp kutusu ikonu gibi)
+
+**Aksiyon:**
+Kategori seç → “İleri”
+
+---
+
+## **1.3 – Talep Oluşturma Adım 2: Ürün Detayları**
+
+**Ögeler:**
+
+* Marka ve ürün modeli dropdown
+* Seri numarası (ops.)
+* Garanti durumu (on/off toggle)
+* Fotoğraf/video yükleme komponenti
+* Metin alanı: “Sorununuzu açıklayın…”
+* “Aciliyet” seçimi (düşük / orta / yüksek)
+
+**Aksiyon:**
+“İleri”
+
+---
+
+## **1.4 – Talep Oluşturma Adım 3: Konum**
+
+**Ögeler:**
+
+* Harita bileşeni (otomatik konum + elle düzenle)
+* Adres alanı
+* Müsaitlik saatleri seçimi (takvim + saat aralığı picker)
+
+**Aksiyon:**
+“İleri”
+
+---
+
+## **1.5 – Talep Özeti & Onay**
+
+**Ögeler:**
+
+* Kategori - ürün adı
+* Müşteri açıklaması
+* Görsel/video thumbnail’leri
+* Konum ve saat
+* Tahmini fiyat (“X – Y arası değişebilir”)
+
+**Aksiyon:**
+“Talebi Gönder”
+
+---
+
+## **1.6 – Talep Gönderildi Onay Ekranı**
+
+**Ögeler:**
+
+* Animasyon (tick)
+* “Talebiniz değerlendiriliyor”
+* Ortalama atama süresi indikatörü
+
+---
+
+## **1.7 – Talep Detay Ekranı (durum takibi)**
+
+**Ögeler:**
+
+* Durum zaman çizelgesi:
+
+  * Talep oluşturuldu
+  * Teknisyen atanıyor
+  * Teknisyen yolda
+  * İşlem devam ediyor
+  * Tamamlandı
+* Teknisyen kartı (atanınca):
+
+  * Fotoğraf
+  * İsim, uzmanlık
+  * Tahmini geliş zamanı
+  * Telefon (maske)
+* Mesajlaşma modülü (ops.)
+* “Randevuyu ertele” butonu
+
+---
+
+## **1.8 – İşlem Tamamlandı Ekranı**
+
+**Ögeler:**
+
+* Öncesi/sonrası fotoğraflar (teknisyen yükledi)
+* Yapılan işlemler listesi
+* Fatura/ücret bilgisi
+* “Sorunum devam ediyor” butonu
+
+---
+
+## **1.9 – Şikayet Tekrar Adımı**
+
+### **İlk tekrar ekranı**
+
+**Ögeler:**
+
+* “Tekrar kontrol istiyorum”
+* Görsel yükleme alanı
+
+→ Aynı teknisyen otomatik atanır.
+
+---
+
+### **İkinci tekrar ekranı**
+
+Başlık önerisi:
+**“Sorununuz hâlâ devam ediyor mu?”**
+
+**Ögeler:**
+
+* Açıklama
+* Görsel yükleme
+* “Farklı teknisyen talep et”
+
+---
+
+### **Son aşama – Bağımsız Denetçi Talebi**
+
+**Ögeler:**
+
+* Açıklama: “Nihai değerlendirme bağımsız denetçi tarafından yapılacaktır.”
+* Onay kutusu
+
+---
+
+# 🟩 **2) TEKNİSYEN UYGULAMASI EKRANLARI**
+
+---
+
+## **2.1 – Ana Ekran / Talep Havuzu**
+
+**Ögeler:**
+
+* Talep kartları:
+
+  * Ürün kategorisi
+  * Şikayet kısa açıklaması
+  * Müşteri konumu
+  * Uzaklık
+* Filtreler:
+
+  * Kategori
+  * Mesafe
+  * Marka yetkinliği
+  * Aciliyet
+
+**Aksiyon:**
+“Talebi üstlen”
+
+---
+
+## **2.2 – Üstlenme Onay Ekranı**
+
+**Ögeler:**
+
+* Randevu saati seçimi önerisi (sistem karşılaştırmalı)
+* “Müşteriye bildirilecek tahmini saat” giriş alanı
+
+---
+
+## **2.3 – Günlük İş Listesi**
+
+Kalender görünüm veya liste.
+
+Her iş kartında:
+
+* Müşteri adresi
+* Tahmini süre
+* Başlat / Mesaj gönder
+
+---
+
+## **2.4 – İş Başlat Ekranı**
+
+**Ögeler:**
+
+* “Konuma başladım” butonu
+* Seyahat süresi otomatik kaydı (haritadan)
+* İşlem adımları
+
+---
+
+## **2.5 – Çözüm & Kanıt Ekranı**
+
+**Ögeler:**
+
+* Öncesi fotoğraf yükleme
+* Sonrası fotoğraf yükleme
+* Yapılan işlemler checklist
+* Kullanılan parçalar
+* “İşlem tamamlandı” butonu
+
+---
+
+## **2.6 – Ödeme & Sonuç Bildirimi (opsiyonel)**
+
+* İşlem sonucu özet
+* Ücret / komisyon bilgisi
+
+---
+
+# 🟨 **3) BAĞIMSIZ DENETÇİ UYGULAMASI EKRANLARI**
+
+---
+
+## **3.1 – Görev Listesi**
+
+**Ögeler:**
+
+* İncelenecek talep kartları
+* Ürün kategorisi
+* Önceki teknisyen raporları
+* Konuma uzaklık
+
+---
+
+## **3.2 – Denetim Formu Ekranı**
+
+**Ögeler:**
+
+* Marka bazlı soru listesi (dinamik)
+* Fotoğraf/video yükleme
+* Not alanı
+* Müşteri beyanı (imza pad)
+
+---
+
+## **3.3 – Nihai Rapor Oluşturma**
+
+**Ögeler:**
+
+* “Sorun müşteriden kaynaklı”
+* “Sorun firmadan kaynaklı”
+* “Teknik arıza tespit edildi”
+* Sistem otomatik rapor oluşturur.
+
+---
+
+# 🟥 **4) OPERASYON / YÖNETİCİ PANELİ**
+
+.
+.
+.
