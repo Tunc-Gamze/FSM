@@ -1,0 +1,243 @@
+Aşağıdaki yapı **8 ana modül + 3 yardımcı modül** şeklinde tasarlandı.
+
+---
+
+# ✔️ **FSM (Field Service Management) – Detaylı İş Akışı**
+
+## **0. Kullanıcı Senaryoları (Örnekler)**
+
+* **Araç satıldı → Dijital ekran açılmıyor**
+* **Beyaz eşya satıldı → Çamaşır makinesinden tıkırtı sesi**
+* **Yatak/Kanepe satıldı → Kumaş rengi soldu**
+
+Bu senaryolar sisteme “kategori + alt kategori + şikayet türü” olarak işlenir.
+
+---
+
+# **1. Müşteri Talep Oluşturma Modülü**
+
+### Müşteriden alınacak bilgiler (tam liste önerisi):
+
+* Ad / Soyad
+* Telefon
+* Konum (otomatik + elle değiştirilebilir)
+* Ürün kategorisi → “Araç / Elektronik / Beyaz Eşya / Mobilya / vs.”
+* Ürün markası (opsiyonel ama çok katkı sağlar)
+* Şikayet türü
+* Şikayet detay metni
+* Aciliyet seviyesi (yüksek / orta / düşük)
+* Garanti durumu
+* Görsel / video yükleme
+* Ürün seri numarası (opsiyonel)
+* Ev ziyareti mümkün saat aralıkları
+
+### Not
+
+Aciliyet ve kategori seçimi sonraki yapay zekâ eşleştirmesinde önemli.
+
+---
+
+# **2. Yapay Zeka Ön Değerlendirme Modülü**
+
+Yapay zekâ şu işlevleri yerine getirir:
+
+### **2.1 Kategori tespiti**
+
+Gerekirse müşterinin yazdığı metinden kategori otomatik belirlenir.
+
+### **2.2 Ön arıza tahmini**
+
+“Dijital ekran açılmıyor” → %68 ihtimalle adaptör arızası, %22 ekran kartı, vs.
+
+### **2.3 Konum eşleştirme**
+
+* Konum → Teknisyen lokasyonları
+* Mesafe → En yakın 10 teknisyen seçilir
+
+### **2.4 Yetkinlik eşleştirme**
+
+* Teknisyen sertifikaları
+* Deneyim alanları
+* Marka yetkinlikleri
+
+### **2.5 Teknisyen puanı (opsiyonel tartışma)**
+
+Bence şöyle olursa daha mantıklı olur:
+
+* *Çok adaletsiz olmaması için* puan sıralaması sadece **eşit mesafe + eşit sertifika** seviyesinde “tie-breaker” olarak kullanılsın.
+  Tam sıralayıcı yapmak teknisyeni cezalandırabilir.
+
+---
+
+# **3. Teknisyen Profili & Sertifika Modülü**
+
+Teknisyen kayıt olabilmesi için:
+
+### **Zorunlu eğitimler**
+
+* Platform kullanım eğitimi
+* İlgili markanın standartları (örneğin Bosch teknik eğitim sertifikası)
+* Güvenlik / prosedür eğitimi
+
+### **Opsiyonel**
+
+* “Davranış / iletişim eğitimi” → müşteri memnuniyetine büyük katkı sağlar.
+
+### **Profilde bulunacak bilgiler**
+
+* CV / belge yükleme
+* Sertifikalar
+* Yetkinlik alanları
+* Markalar
+* Kendi fiyat skalası / sabit ücret (ops.)
+* Bağımlı teknisyen mi? Freelance mi?
+
+---
+
+# **4. Talep Havuza Düşer**
+
+Yapay zekâ eşleştirmesinden geçen talepler, uygun teknisyen havuzuna düşer.
+
+### Havuzda teknisyenin seçenekleri:
+
+* Talebi “üstlen”
+* “Meşgulüm” diyerek pas geç
+* “Daha sonra bakacağım” (isteğe bağlı)
+
+Talebi alan teknisyen **SLA başlatır**.
+
+---
+
+## **4.1 Müşteriye otomatik mesaj**
+
+* Teknisyen adı-soyadı
+* Planlanan geliş saati
+* İşin yaklaşık süresi
+* Takip numarası
+
+---
+
+## **4.2 Müşteri geri bildirimi**
+
+Müşteri şu seçeneklerden birini seçer:
+
+* Onaylıyorum
+* Farklı gün/saat istiyorum
+* Talebi iptal etmek istiyorum
+
+---
+
+# **5. Teknisyen Ziyareti Başlatır**
+
+Teknisyen yerinde işlem başlatınca uygulamadan “İşleme Başla” der.
+
+SLA ve KPI zamanları:
+
+* İşleme başlama
+* İşleme bitirme
+* Randevuya ulaşma süresi
+* Tekrar şikayet açıldıysa tekrar süresi
+
+---
+
+# **6. Teknisyen İşlem Sonlandırması**
+
+Teknisyen şu kanıtları sisteme yükler:
+
+* Öncesi fotoğraf / video
+* Sonrası fotoğraf / video
+* Yapılan işlemler listesi
+* Kullanılan parçalar
+* Eğer çözüm yoksa "Çözüm Yok / Parça Bekleniyor"
+
+Bu kayıt ödeme için zorunlu belge olur.
+
+---
+
+# **7. Şikayet Tekrar Modülü**
+
+## **7.1 İlk tekrar**
+
+Müşteri “şikayet devam ediyor” derse:
+
+* Eski teknisyen otomatik atanır
+* Teknisyen tekrar gider → adım 4-5-6 tekrarlanır
+
+## **7.2 İkinci tekrar**
+
+Müşteri ikinci kez memnun değilse:
+
+Buton adı önerileri:
+
+* “Sorun Devam Ediyor”
+* “Sorun Çözülmedi”
+* “İkinci Görüş İste”
+* “Yeniden İnceleme Talebi”
+
+Bu aşamada **farklı bir teknisyen atanır.**
+
+---
+
+# **8. Bağımsız Denetçi Modülü (Final aşama)**
+
+Bu aşama hem müşteri hem teknisyen tarafından tetiklenebilir.
+Bu modül kritik çünkü hem marka hem tüketici hakları açısından yasal sorumluluk içeriyor.
+
+### Denetçinin görevleri:
+
+* Standart soru listesi üzerinden inceleme
+* Teknik ölçüm/tespit
+* Önceki teknisyen raporlarını inceleme
+* Çözümün neden yapılamadığını belirleme
+* Nihai raporu sisteme yükleme (foto & video ile)
+
+### Kim karar verecek?
+
+**3 seçenek var:**
+
+### **A) Tamamen bağımsız denetçi karar verir**
+
+* En temiz yöntem
+* Marka tarafından kabulü kolay
+  – Denetçi kalitesi çok önemli
+
+### **B) AI + denetçi hibrit karar**
+
+AI geçmiş raporları & teknik ölçümleri analiz eder
+Denetçi manuel değerlendirme ekler
+→ Sistem ortak karar oluşturur
+
+Bu daha kurumsal bir yapı olur.
+
+### **C) Marka temsilcisi + bağımsız denetçi birlikte**
+
+(Marka ile B2B anlaşmalarına göre değişir.)
+
+---
+
+# ✔️ Ek Modüller (çok önemli)
+
+## **A) SLA & KPI Paneli**
+
+* Teknisyen performansı
+* Ortalama çözüm süresi
+* Müşteri memnuniyeti
+* Yeniden şikayet oranı
+* Denetçi kararları
+
+## **B) Ödeme & Finans Modülü**
+
+* Teknisyene ödeme
+* Fatura kesim
+* Komisyon
+* Parça değişim tutarları
+
+## **C) Marka Paneli**
+
+Markalar şu bilgilere sahip olur:
+
+* Günlük gelen şikayetler
+* Teknisyen çözüm oranları
+* Gereken parça stok bilgisi
+* Denetçi raporları
+
