@@ -1,0 +1,308 @@
+FSM Operasyon / Yönetici Paneli (Backoffice) ekranları, tamamen gerçek bir SaaS ürünü gibi, modül modül 
+
+Bu panel;
+marka yöneticileri, adminler, operasyon ekibi ve kalite ekibi tarafından kullanılacak.
+Bu yüzden rol bazlı modüller.
+
+Aşağıdaki akış **Figma’da birebir ekranlara çevrilebilir netlikte**.
+
+---
+
+# 🟥 **FSM OPERASYON / YÖNETİCİ PANELİ**
+
+## (Admin – Marka – Operasyon – Kalite – Denetçi Yönetimi)
+
+Aşağıda 10 ana modül var:
+
+1. **Dashboard / Genel Bakış**
+2. **Talep Yönetimi**
+3. **Teknisyen Yönetimi**
+4. **Bağımsız Denetçi Yönetimi**
+5. **Müşteri Yönetimi**
+6. **SLA & KPI Modülü**
+7. **Raporlama ve Analitik**
+8. **Fatura / Muhasebe Modülü**
+9. **Sertifika & Eğitim Yönetimi**
+10. **Ayarlar & Rol Yönetimi**
+
+---
+
+# 🔵 **1) Dashboard / Genel Bakış (Ana Sayfa)**
+
+### Ekran öğeleri:
+
+* **Günlük gelen talep sayısı**
+* **Aktif talepler**
+* **Atanmayı bekleyen talepler**
+* **Tekrar şikayet oranı**
+* **Bugün çalışan teknisyen sayısı**
+* **Çözülmüş – çözülemeyen talepler grafiği**
+* **Kategori bazlı arıza dağılımı (pie chart)**
+* **SLA ihlali uyarısı**
+
+### Ek özellikler:
+
+* Canlı harita → teknisyenlerin konumu
+* Kritik uyarılar paneli
+
+  * “X teknisyenin sertifikası bitiyor”
+  * “Y talep SLA ihlali sınırına geldi”
+
+---
+
+# 🟦 **2) Talep Yönetimi Modülü**
+
+Bu modül operasyonun kalbi.
+
+### **2.1 Talep Listesi**
+
+Filtreler:
+
+* Durum: Yeni / Atandı / Yolda / Beklemede / Tekrar / Denetimde / Tamamlandı
+* Kategori
+* Marka
+* Teknisyen
+* Tarih
+* SLA’ya kalan süre
+* Aciliyet
+
+Liste sütunları:
+
+* Talep ID
+* Müşteri bilgisi
+* Ürün kategorisi
+* Şikayet kısa açıklama
+* Atanan teknisyen
+* Durum
+* SLA durumu (yeşil/sarı/kırmızı)
+* İşlem süresi
+* Son işlem tarihi
+* “Detay” butonu
+
+---
+
+### **2.2 Talep Detay Ekranı**
+
+**Bu ekran aşırı kritik.**
+
+Ögeler:
+
+* Müşteri bilgisi
+* Ürün bilgisi
+* Tüm fotoğraf/video dosyaları
+* Konum
+* Talebin tüm zaman çizelgesi
+
+  * oluşturuldu
+  * teknisyen atandı
+  * yolda
+  * işlem başladı
+  * işlem bitti
+  * tekrar açıldı
+  * denetçi atandı
+* Teknisyen yorumları
+* Sistem AI analizleri
+* Bağımsız denetçi raporu (varsa)
+
+Aksiyonlar:
+
+* Talebi manuel teknisyene ata
+* Denetçi ata
+* Talebi kapat
+* Yorum ekle
+* Uyarı bırak
+
+---
+
+# 🟩 **3) Teknisyen Yönetimi Modülü**
+
+### 3.1 Teknisyen Listesi
+
+Sütunlar:
+
+* Ad / Soyad
+* Uzmanlık kategori(leri)
+* Marka sertifikaları
+* Puan / memnuniyet
+* Günlük tamamlama oranı
+* SLA uyum oranı
+* Şu anki durumu (Boş / Meşgul / İşte)
+* Lokasyon (şehir/mahalle)
+
+### 3.2 Teknisyen Profil Detayı
+
+Ögeler:
+
+* Fotoğraf
+* Kişisel bilgiler
+* Sertifikalar
+* Eğitimler
+* Yetkinlik kategorileri
+* Marka yetkisi
+* Son 30 talep performansı
+* Tekrar şikayet oranı
+* Kazanç raporları
+
+Aksiyonlar:
+
+* Hesabı askıya al
+* Sertifika ekle/çıkar
+* Eğitim tanımla
+* Uyarı ekle
+* Teknik rapor geçmişi indir
+
+### 3.3 Teknisyen Haritası
+
+Tüm teknisyenler canlı konumda görülür.
+Filtre: kategori – marka – aktiflik – mesafe
+
+---
+
+# 🟨 **4) Bağımsız Denetçi Yönetimi**
+
+### 4.1 Denetçi Listesi
+
+* Ad soyad
+* Denetçi türü (freelancer/kurumsal)
+* Yetki seviyeleri
+* Denetim başarı oranı
+* Ortalama denetim süresi
+* Ücret tipi (talep başına / saatlik)
+
+### 4.2 Denetçi Detay Ekranı
+
+* Eğitimler
+* Standart sorulara verdiği puanlar
+* Daha önceki denetim raporları
+* Tutarlılık analizi (%100 tutarlı → çok iyi)
+
+### 4.3 Denetçi Raporları Modülü
+
+* Talep bazlı rapor görüntüleme
+* “Sorun müşteriden kaynaklı mı – firmadan mı?” geçmiş analizleri
+* AI ile karşılaştırmalı doğruluk oranı
+
+---
+
+# 🟧 **5) Müşteri Yönetimi**
+
+### 5.1 Müşteri Listesi
+
+* Ad soyad
+* Telefon
+* İletişim geçmişi
+* Toplam talep
+* Tekrar oranı
+* Yüklenen belge sayısı
+
+### 5.2 Müşteri Detayı
+
+* Tüm talep geçmişi
+* Anket sonuçları
+* Denetçi aşamasına düşme sayısı (kritik takip)
+* Özel notlar
+
+---
+
+# 🟪 **6) SLA & KPI Modülü**
+
+Bu modül işletmeler için en önemli yer.
+
+### KPI gösterimleri:
+
+* Ortalama çözüm süresi
+* İlk ziyaret çözüm oranı
+* Tekrar şikayet oranı
+* Denetçi aşamasına düşme oranı
+* Teknisyen bazlı SLA uyumu
+* Marka bazlı SLA
+
+Grafikler:
+
+* Çizgi grafik
+* Pie chart
+* Heatmap (kategori → marka → sorun dağılımı)
+* Şehir bazlı yoğunluk haritası
+
+---
+
+# 🟫 **7) Raporlama & Analitik**
+
+Filtrelenebilir raporlar:
+
+* Kategori bazlı arıza raporu
+* Marka performans raporu
+* Teknisyen performans raporu
+* Denetçi doğruluk raporu
+* Günlük / haftalık / aylık trendler
+* İptal nedenleri
+
+Dışa aktarma:
+
+* PDF
+* Excel
+* API ile entegrasyon
+
+---
+
+# 🟩 **8) Fatura / Muhasebe Modülü**
+
+Teknisyen ödemeleri:
+
+* Tamamlanan işler
+* Kesilecek komisyon
+* Ödeme tarihleri
+
+Marka faturalandırması:
+
+* Aylık anlaşmalı markalara rapor
+* Parça maliyetleri
+* Denetçi ücretleri
+* Fiyatlandırma tabloları
+
+Vergi yönetimi:
+
+* e-Fatura entegrasyonu (ops.)
+
+---
+
+# 🟦 **9) Sertifika & Eğitim Yönetimi**
+
+### Eğitim modülü:
+
+* Zorunlu eğitimler listesi
+* Sertifika geçerlilik tarihleri
+* Eğitim videoları
+* Test / Quiz sonuçları
+
+### Uyarı sistemi:
+
+* Sertifika bitimine 30 gün kala uyarı
+* Eğitim tamamlamadan iş üstlenememe
+
+---
+
+# 🟥 **10) Ayarlar & Rol Yönetimi**
+
+Roller:
+
+* Süper Admin
+* Operasyon Admin
+* Marka Yetkilisi
+* Muhasebe
+* Kalite Uzmanı
+* Denetçi Admin
+
+Her rol için:
+
+* Hangi ekranları görebilir?
+* Hangi işlemleri yapabilir?
+
+Genel ayarlar:
+
+* Marka logoları
+* Parça fiyat listeleri
+* AI eşleştirme kuralları
+* Aciliyet seviyeleri
+* Talep zaman aşımı süresi
+
